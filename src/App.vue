@@ -1,28 +1,30 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-app-bar app color="indigo" dark>
+      <div class="d-flex align-center text-center">
+        <v-icon large>mdi-checkbox-multiple-marked-circle-outline</v-icon>
+        <h1 class="font-weight-light text-right">Just Do It!</h1>
+      </div>
+    </v-app-bar>
+
+    <v-content>
+      <TodoList />
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TodoList from "./components/TodoList";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: "App",
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    TodoList
+  },
+
+  data: () => ({
+    //
+  })
+};
+</script>
