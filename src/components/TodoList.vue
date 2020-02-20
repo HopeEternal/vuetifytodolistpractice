@@ -61,7 +61,7 @@ export default {
       this.newTodo = "";
     },
     todoComplete(index) {
-      this.todos.splice(index);
+      this.todos.splice(index, 1);
     }
   }
 };
