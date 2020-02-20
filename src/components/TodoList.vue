@@ -9,7 +9,22 @@
                 <v-toolbar-title>To Do List</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <p v-for="(todo, index) in todos" :key="index">{{ todo }}</p>
+                <v-list>
+                  <v-subheader>Tasks</v-subheader>
+                  <div v-for="(todo, index) in todos" :key="index">
+                    <v-list-item @click="todoComplete(index)">
+                      <v-list-item-action>
+                        <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
+                      </v-list-item-action>
+                      <v-list-item-content>
+                        <v-list-item-title>{{ todo }}</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+
+                    <v-divider></v-divider>
+                  </div>
+                </v-list>
+
                 <v-form>
                   <v-text-field
                     label="Enter a task to add"
@@ -44,6 +59,9 @@ export default {
     addTodo() {
       this.todos.push(this.newTodo);
       this.newTodo = "";
+    },
+    todoComplete(index) {
+      this.todos.splice(index);
     }
   }
 };
