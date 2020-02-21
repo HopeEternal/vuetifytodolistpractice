@@ -20,15 +20,17 @@
                         <v-list-item-title
                           @dblclick="todoEdit(index)"
                           v-model="todo.title"
+                          v-if="!todo.editing"
                         >{{ todo.name }}</v-list-item-title>
-                        <!--<v-text-field
-                          label="hi"
+                        <v-text-field
+                          class="editable"
+                          label="Edit Me"
                           name="editTodo"
                           append-icon="mdi-pencil"
                           type="text"
                           v-model="todo.title"
                           v-else
-                        />-->
+                        />
                       </v-list-item-content>
                     </v-list-item>
 
@@ -84,8 +86,12 @@ export default {
     },
     todoEdit(index) {
       console.log(this.todos[index]);
-      this.editing = true;
+      this.todos[index].editing = true;
     }
   }
 };
 </script>
+
+
+<style>
+</style>
