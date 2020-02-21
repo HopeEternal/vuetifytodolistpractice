@@ -12,12 +12,23 @@
                 <v-list>
                   <v-subheader>Tasks</v-subheader>
                   <div v-for="(todo, index) in todos" :key="index">
-                    <v-list-item @click="todoComplete(index)">
+                    <v-list-item>
                       <v-list-item-action>
-                        <v-icon>mdi-checkbox-blank-circle-outline</v-icon>
+                        <v-icon @click="todoComplete(index)">mdi-checkbox-blank-circle-outline</v-icon>
                       </v-list-item-action>
                       <v-list-item-content>
-                        <v-list-item-title>{{ todo }}</v-list-item-title>
+                        <v-list-item-title
+                          @dblclick="todoEdit(index)"
+                          v-model="todo.title"
+                        >{{ todo.name }}</v-list-item-title>
+                        <!--<v-text-field
+                          label="hi"
+                          name="editTodo"
+                          append-icon="mdi-pencil"
+                          type="text"
+                          v-model="todo.title"
+                          v-else
+                        />-->
                       </v-list-item-content>
                     </v-list-item>
 
@@ -52,16 +63,28 @@ export default {
   name: "TodoList",
 
   data: () => ({
-    todos: ["Cook", "Clean", "Code"],
+    todos: [
+      { name: "Cook", editing: false },
+      { name: "Clean", editing: false },
+      { name: "Code", editing: false }
+    ],
     newTodo: ""
   }),
   methods: {
     addTodo() {
-      this.todos.push(this.newTodo);
-      this.newTodo = "";
+      if (!this.newTodo) {
+        alert("Please enter a new task to add!");
+      } else {
+        this.todos.push({ name: this.newTodo });
+        this.newTodo = "";
+      }
     },
     todoComplete(index) {
       this.todos.splice(index, 1);
+    },
+    todoEdit(index) {
+      console.log(this.todos[index]);
+      this.editing = true;
     }
   }
 };
