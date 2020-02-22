@@ -14,21 +14,25 @@
                   <div v-for="(todo, index) in todos" :key="index">
                     <v-list-item>
                       <v-list-item-action>
-                        <v-icon @click="todoComplete(index)">mdi-checkbox-blank-circle-outline</v-icon>
+                        <v-icon
+                          @click="todoComplete(index), snackbar = true"
+                        >mdi-checkbox-blank-circle-outline</v-icon>
                       </v-list-item-action>
                       <v-list-item-content>
                         <v-list-item-title
-                          @dblclick="todoEdit(index)"
+                          @click="todoEdit(index)"
                           v-model="todo.title"
                           v-if="!todo.editing"
                         >{{ todo.name }}</v-list-item-title>
-                        <v-text-field
+                        <input
                           class="editable"
-                          label="Edit Me"
                           name="editTodo"
                           append-icon="mdi-pencil"
                           type="text"
-                          v-model="todo.title"
+                          v-model="todo.name"
+                          @blur="doneEditing(todo)"
+                          @keyup.enter="doneEditing(todo)"
+                          v-focus
                           v-else
                         />
                       </v-list-item-content>
@@ -45,6 +49,7 @@
                     prepend-icon="mdi-account-check"
                     type="text"
                     v-model="newTodo"
+                    @keydown.enter.prevent="addTodo()"
                   />
                 </v-form>
               </v-card-text>
@@ -55,6 +60,10 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-snackbar v-model="snackbar" :timeout="1000">
+          This item has been completed!
+          <v-btn color="blue" text @click="snackbar = false">Close</v-btn>
+        </v-snackbar>
       </v-container>
     </v-content>
   </v-app>
@@ -70,8 +79,17 @@ export default {
       { name: "Clean", editing: false },
       { name: "Code", editing: false }
     ],
-    newTodo: ""
+    newTodo: "",
+    snackbar: false
   }),
+  directives: {
+    focus: {
+      // directive definition
+      inserted: function(el) {
+        el.focus();
+      }
+    }
+  },
   methods: {
     addTodo() {
       if (!this.newTodo) {
@@ -85,8 +103,10 @@ export default {
       this.todos.splice(index, 1);
     },
     todoEdit(index) {
-      console.log(this.todos[index]);
       this.todos[index].editing = true;
+    },
+    doneEditing(todo) {
+      todo.editing = false;
     }
   }
 };
@@ -94,4 +114,7 @@ export default {
 
 
 <style>
+.editable {
+  font-size: 1rem;
+}
 </style>
